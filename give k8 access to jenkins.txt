@@ -1,0 +1,24 @@
+create a sa
+create secret annotate the sa in secret
+create role and role binding
+create the kube config file with service account
+place this kube config in the .kube folder
+in the jenkins serve Dashboard --> Manage Jenkins --> Configure System under global properties give the env:
+KUBECONFIG   value: path/to/config
+make sure that config file has jenkins user access
+test by writing the sample jenkinsfile
+
+----------------------------------------
+
+install jenkins using helm chart
+
+helm repo add jenkins https://charts.jenkins.io
+
+github url :  https://github.com/jenkinsci/helm-charts/tree/main/charts/jenkins
+
+change the values.yaml file as per our needs 
+
+helm install jenkins jenkins/jenkins -f values.yaml (or)
+helm install jenkins jenkins/jenkins --values values.yaml
+
+--------------------------------------------------------------------------

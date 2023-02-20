@@ -1,0 +1,29 @@
+# API server address
+server=https://yourapiserveraddress:443
+# the name of the secret containing the service account token goes here
+name=mysecret
+
+ca=$(kubectl get secret/$name -o jsonpath='{.data.ca\.crt}')
+token=$(kubectl get secret/$name -o jsonpath='{.data.token}' | base64 --decode)
+namespace=$(kubectl get secret/$name -o jsonpath='{.data.namespace}' | base64 --decode)
+
+echo "
+apiVersion: v1
+kind: Config
+clusters:
+- name: default-cluster
+  cluster:
+    certificate-authority-data: ${ca}
+    server: ${server}
+contexts:
+- name: default-context
+  context:
+    cluster: prod-cluster
+    namespace: ${namespace}
+    user: jenkins
+current-context: default-context
+users:
+- name: jenkins
+  user:
+    token: ${token}
+" > config
